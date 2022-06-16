@@ -53,7 +53,7 @@ def do_image_segmentation(
         return (2. * intersection) / (K.sum(y_true_f * y_true_f) + K.sum(y_pred_f * y_pred_f) + eps) #eps pour éviter la division par 0 
     
     image_reshaped,size_ = redimension(layer)
-    v = os.path.abspath("src/napari_flower_apple_tree/best_model_FL_BCE_0_5.h5")
+    v = os.path.abspath("napari-flower-apple-tree/src/napari_flower_apple_tree/best_model_FL_BCE_0_5.h5")
     model_new = tf.keras.models.load_model(v,custom_objects={'dice_coefficient': dice_coefficient})
     prediction = model_new.predict(image_reshaped)
     preds_test_t = (prediction > 0.2).astype(np.uint8)

@@ -42,6 +42,6 @@ contributions:
       key: unique_id.1
   widgets:
     - command: napari-flower-apple-tree.make_qwidget
-      display_name: Flowering Apple Tree Segmentation
+      display_name: QWidget Segmentation
     - command: napari-flower-apple-tree.do_image_segmentation
       display_name: Flowering Apple Tree Segmentation

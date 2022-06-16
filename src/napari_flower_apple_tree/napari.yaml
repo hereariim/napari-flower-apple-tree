@@ -21,7 +21,7 @@ contributions:
     - id: napari-flower-apple-tree.make_qwidget
       python_name: napari_flower_apple_tree._widget:ExampleQWidget
       title: Widget image segmentation
-    - id: napari-flower-apple-tree.do_image_segmentation
+    - id: napari-flower-apple-tree.make_image_segmentation
       python_name: napari_flower_apple_tree._widget:do_image_segmentation
       title: Do image segmentation
 
@@ -43,5 +43,5 @@ contributions:
   widgets:
     - command: napari-flower-apple-tree.make_qwidget
       display_name: QWidget Segmentation
-    - command: napari-flower-apple-tree.do_image_segmentation
+    - command: napari-flower-apple-tree.make_image_segmentation
       display_name: Flowering Apple Tree Segmentation

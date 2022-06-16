@@ -14,15 +14,14 @@ contributions:
     - id: napari-flower-apple-tree.make_sample_data
       python_name: napari_flower_apple_tree._sample_data:make_sample_data
       title: Load sample data from Flower Apple Tree
-    - id: napari-flower-apple-tree.make_qwidget
-      python_name: napari_flower_apple_tree._widget:ExampleQWidget
-      title: Make example QWidget
-    - id: napari-flower-apple-tree.make_magic_widget
-      python_name: napari_flower_apple_tree._widget:example_magic_widget
-      title: Make example magic widget
-    - id: napari-flower-apple-tree.make_func_widget
-      python_name: napari_flower_apple_tree._widget:example_function_widget
-      title: Make example function widget
+
+    - id: napari-flower-apple-tree.widget_image_segmentation
+      python_name: napari_flower_apple_tree._widget:widget_image_segmentation
+      title: Widget image segmentation
+    - id: napari-flower-apple-tree.do_image_segmentation
+      python_name: napari_flower_apple_tree._widget:do_image_segmentation
+      title: Do image segmentation
+
   readers:
     - command: napari-flower-apple-tree.get_reader
       accepts_directories: false
@@ -39,10 +38,8 @@ contributions:
       display_name: Flower Apple Tree
       key: unique_id.1
   widgets:
-    - command: napari-flower-apple-tree.make_qwidget
-      display_name: Example QWidget
-    - command: napari-flower-apple-tree.make_magic_widget
-      display_name: Example Magic Widget
-    - command: napari-flower-apple-tree.make_func_widget
+    - command: napari-flower-apple-tree.widget_image_segmentation
+      display_name: Flowering Apple Tree Segmentation
+    - command: napari-flower-apple-tree.do_image_segmentation
       autogenerate: true
-      display_name: Example Function Widget
+      display_name: Flowering Apple Tree Segmentation

@@ -24,7 +24,6 @@ import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import backend as K
 import numpy as np
-import cv2
 from skimage.io import imread, imshow, imread_collection, concatenate_images
 from skimage.transform import resize
 from napari.qt.threading import thread_worker

@@ -18,7 +18,7 @@ import cv2
 from magicgui import magic_factory, magicgui
 from skimage import data
 import sys
-
+import os
 import numpy
 import tensorflow as tf
 from tensorflow import keras
@@ -53,8 +53,8 @@ def do_image_segmentation(
         return (2. * intersection) / (K.sum(y_true_f * y_true_f) + K.sum(y_pred_f * y_pred_f) + eps) #eps pour éviter la division par 0 
     
     image_reshaped,size_ = redimension(layer)
-
-    model_new = tf.keras.models.load_model("best_model_FL_BCE_0_5.h5",custom_objects={'dice_coefficient': dice_coefficient})
+    v = os.path.abspath("src/napari_flower_apple_tree/best_model_FL_BCE_0_5.h5")
+    model_new = tf.keras.models.load_model(v,custom_objects={'dice_coefficient': dice_coefficient})
     prediction = model_new.predict(image_reshaped)
     preds_test_t = (prediction > 0.2).astype(np.uint8)
     temp=np.squeeze(preds_test_t[0,:,:,0])*255

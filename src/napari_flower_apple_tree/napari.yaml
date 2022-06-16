@@ -5,7 +5,7 @@ contributions:
     - id: napari-flower-apple-tree.get_reader
       python_name: napari_flower_apple_tree._reader:napari_get_reader
       title: Open data with Flower Apple Tree
-      
+
     - id: napari-flower-apple-tree.write_multiple
       python_name: napari_flower_apple_tree._writer:write_multiple
       title: Save multi-layer data with Flower Apple Tree
@@ -18,8 +18,8 @@ contributions:
       python_name: napari_flower_apple_tree._sample_data:make_sample_data
       title: Load sample data from Flower Apple Tree
 
-    - id: napari-flower-apple-tree.widget_image_segmentation
-      python_name: napari_flower_apple_tree._widget:widget_image_segmentation
+    - id: napari-flower-apple-tree.make_qwidget
+      python_name: napari_flower_apple_tree._widget:ExampleQWidget
       title: Widget image segmentation
     - id: napari-flower-apple-tree.do_image_segmentation
       python_name: napari_flower_apple_tree._widget:do_image_segmentation
@@ -41,8 +41,7 @@ contributions:
       display_name: Flower Apple Tree
       key: unique_id.1
   widgets:
-    - command: napari-flower-apple-tree.widget_image_segmentation
+    - command: napari-flower-apple-tree.make_qwidget
       display_name: Flowering Apple Tree Segmentation
     - command: napari-flower-apple-tree.do_image_segmentation
-      autogenerate: true
       display_name: Flowering Apple Tree Segmentation

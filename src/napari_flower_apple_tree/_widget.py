@@ -6,15 +6,11 @@ see: https://napari.org/plugins/guides.html?#widgets
 
 Replace code below according to your needs.
 """
-from typing import TYPE_CHECKING
-
 from magicgui import magic_factory
-
-if TYPE_CHECKING:
-    import napari
-
+from qtpy.QtWidgets import QHBoxLayout, QPushButton, QWidget
 
 from enum import Enum
+from subprocess import call
 import numpy
 import napari
 from napari.types import ImageData
@@ -23,12 +19,9 @@ from magicgui import magic_factory, magicgui
 from skimage import data
 import sys
 
-#Etape 1
 import numpy
 import tensorflow as tf
 from tensorflow import keras
-#!pip install focal_loss
-from focal_loss import BinaryFocalLoss
 from tensorflow.keras import backend as K
 import numpy as np
 import cv2
@@ -37,44 +30,31 @@ from skimage.transform import resize
 from napari.qt.threading import thread_worker
 from napari.utils.notifications import show_info
 from skimage.io import imread
-
-# here's the magicgui!  We also use the additional
-# `call_button` option
-@magic_factory
-def widget_image_segmentation(
-    layer: ImageData
-    ) -> ImageData:
-    
-    def redimension(image):
-        X = np.zeros((1,256,256,3),dtype=np.uint8)   
-        size_ = image.shape
-        img = image[:,:,:3]
-        X[0] = resize(img, (256, 256), mode='constant', preserve_range=True)
-        return X,size_
-
-    def dice_coefficient(y_true, y_pred):
-        eps = 1e-6
-        y_true_f = K.flatten(y_true)
-        y_pred_f = K.flatten(y_pred)
-        intersection = K.sum(y_true_f * y_pred_f)
-        return (2. * intersection) / (K.sum(y_true_f * y_true_f) + K.sum(y_pred_f * y_pred_f) + eps) #eps pour éviter la division par 0 
-    
-    image_reshaped,size_ = redimension(layer) #numpy.ndarray
-    
-    #Etape 3 : ii) Segmentation de l'image par l'algorithme U-NET pré-entrainé
-    model_new = tf.keras.models.load_model("best_model_FL_BCE_0_5.h5",custom_objects={'dice_coefficient': dice_coefficient})
-    prediction = model_new.predict(image_reshaped)
-    #Etape 3 : iii) Application du seuil de segmentation optimisé
-    preds_test_t = (prediction > 0.30000000000000004).astype(np.uint8)
-    
-    #preds_test_t = resize(preds_test_t, (3024, 4032), mode='constant', preserve_range=True)
-    #Etape 4 : Output
-    temp=np.squeeze(preds_test_t[0,:,:,0])*255
-    #return cv2.resize(temp, dsize=(3024, 4032)) #2e résultat
-    return cv2.resize(temp, dsize=(size_[1],size_[0])) #1er résultat
+from napari_plugin_engine import napari_hook_implementation
+from enum import Enum
+from napari.utils.notifications import show_info
 
 
-@magicgui(call_button="Run segmentation")
+
+class ExampleQWidget(QWidget):
+    # your QWidget.__init__ can optionally request the napari viewer instance
+    # in one of two ways:
+    # 1. use a parameter called `napari_viewer`, as done here
+    # 2. use a type annotation of 'napari.viewer.Viewer' for any parameter
+    def __init__(self, napari_viewer):
+        super().__init__()
+        self.viewer = napari_viewer
+
+        btn = QPushButton("Click me!")
+        btn.clicked.connect(self._on_click)
+
+        self.setLayout(QHBoxLayout())
+        self.layout().addWidget(btn)
+
+    def _on_click(self):
+        print("napari has", len(self.viewer.layers), "layers")
+
+
 def do_image_segmentation(
     layer: ImageData
     ) -> ImageData:
@@ -93,16 +73,17 @@ def do_image_segmentation(
         intersection = K.sum(y_true_f * y_pred_f)
         return (2. * intersection) / (K.sum(y_true_f * y_true_f) + K.sum(y_pred_f * y_pred_f) + eps) #eps pour éviter la division par 0 
     
-    image_reshaped,size_ = redimension(layer) #numpy.ndarray
-    
-    #Etape 3 : ii) Segmentation de l'image par l'algorithme U-NET pré-entrainé
+    image_reshaped,size_ = redimension(layer)
+
     model_new = tf.keras.models.load_model("best_model_FL_BCE_0_5.h5",custom_objects={'dice_coefficient': dice_coefficient})
     prediction = model_new.predict(image_reshaped)
-    #Etape 3 : iii) Application du seuil de segmentation optimisé
-    preds_test_t = (prediction > 0.30000000000000004).astype(np.uint8)
-    
-    #preds_test_t = resize(preds_test_t, (3024, 4032), mode='constant', preserve_range=True)
-    #Etape 4 : Output
+    preds_test_t = (prediction > 0.2).astype(np.uint8)
     temp=np.squeeze(preds_test_t[0,:,:,0])*255
-    #return cv2.resize(temp, dsize=(3024, 4032)) #2e résultat
-    return cv2.resize(temp, dsize=(size_[1],size_[0])) #1er résultat
+    
+    return cv2.resize(temp, dsize=(size_[1],size_[0]))
+
+@magic_factory(call_button="Run")
+def do_model_segmentation(
+    layer: ImageData) -> ImageData:
+    show_info('Succes !')
+    return do_image_segmentation(layer)

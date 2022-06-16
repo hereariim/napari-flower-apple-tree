@@ -5,12 +5,15 @@ contributions:
     - id: napari-flower-apple-tree.get_reader
       python_name: napari_flower_apple_tree._reader:napari_get_reader
       title: Open data with Flower Apple Tree
+      
     - id: napari-flower-apple-tree.write_multiple
       python_name: napari_flower_apple_tree._writer:write_multiple
       title: Save multi-layer data with Flower Apple Tree
+
     - id: napari-flower-apple-tree.write_single_image
       python_name: napari_flower_apple_tree._writer:write_single_image
       title: Save image data with Flower Apple Tree
+
     - id: napari-flower-apple-tree.make_sample_data
       python_name: napari_flower_apple_tree._sample_data:make_sample_data
       title: Load sample data from Flower Apple Tree
